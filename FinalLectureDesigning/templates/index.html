@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>NAME CLASSIFICATION</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('form').submit(function (event) {
+                event.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '/concatenate',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        $('#result').text(response);
+                        $('#result-strings').append('<li>' + response + '</li>');
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+        function myFunction() {
+            document.querySelector(".div1").style.display = "block";
+        }
+    </script>
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        .form1 {
+            margin: 25px;
+        }
+
+        .div1 {
+            display: none;
+            padding: 25px;
+            margin: 25px;
+        }
+
+        img {
+            height: 450px;
+            width: 600px;
+            border: 1px solid #ccc;
+            padding: 25px;
+            margin: 25px;
+        }
+
+        img :hover {
+            border: 1px solid #777;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Prediction and Classification</h1>
+    <form class="form1">
+        <input type="text" name="string1" placeholder="Enter name" required>
+        <button type="submit" onclick="myFunction()">Submit</button>
+    </form>
+    <div class="div1">
+        <h2>Result: <span id="result"></span></h2>
+        <h2>History Record</h2>
+        <ul id="result-strings">
+            {% for string in result_strings %}
+            <li>{{ string }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <img src="data:image/png;base64,{{ image_data }}" alt="Loss Plot" title="Loss Plot">
+
+</body>
+
+</html>
